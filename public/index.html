@@ -33,6 +33,34 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
+      const messages = document.getElementById("messages");
+      const form = document.getElementById("form");
+      const input = document.getElementById("input");
+      const userID = Date.now();
+      //send messages
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (input.value) {
+          socket.emit("chat message", {
+            msg: input.value,
+            user: userID,
+          });
+          //clear message after submit
+          input.value = "";
+        }
+      });
+      //letf Right chat logic
+      socket.on("chat message", (msgObject) => {
+        const message = document.createElement("li");
+        const messageItem = document.createElement("span");
+        messageItem.textContent = msgObject.msg;
+        if (msgObject.user == userID) {
+          message.classList.add("right");
+        }
+        //send span to li
+        message.appendChild(messageItem);
+        messages.appendChild(message);
+      });
     </script>
   </body>
 </html>

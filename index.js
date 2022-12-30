@@ -19,7 +19,7 @@ io.on("connect", (socket) => {
   //receive message
   socket.on("chat message", (msg) => {
     //send message
-    socket.emit("chat message", msg);
+    io.emit("chat message", msg);
   });
 
   socket.on("disconnect", () => {
